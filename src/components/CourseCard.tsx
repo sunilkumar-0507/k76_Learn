@@ -29,7 +29,7 @@ export function CourseCard({ entry, topicLimit = 4, headingLevel: H = 'h3' }: Pr
       </div>
 
       <H className="relative mt-6 text-xl">
-        <Link to={coursePath(entry)} className="after:absolute after:inset-0 after:content-['']">
+        <Link to={coursePath(entry)} className="transition hover:text-electric-300">
           {course.name}
         </Link>
       </H>
@@ -48,10 +48,14 @@ export function CourseCard({ entry, topicLimit = 4, headingLevel: H = 'h3' }: Pr
       )}
 
       <div className="relative mt-auto pt-7">
-        <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-5 py-2.5 text-sm font-semibold text-white transition-all duration-300 group-hover:border-transparent group-hover:bg-brand-gradient">
+        <Link
+          to={coursePath(entry)}
+          aria-label={`Explore ${course.name} — details and fees`}
+          className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-5 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:border-transparent hover:bg-brand-gradient group-hover:border-transparent group-hover:bg-brand-gradient"
+        >
           {category.isBundle ? 'Explore Programme' : 'Explore Course'}
           <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:rotate-45" aria-hidden="true" />
-        </span>
+        </Link>
       </div>
     </article>
   );

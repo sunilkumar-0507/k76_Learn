@@ -8,6 +8,8 @@ import { Benefits } from '@/components/sections/Benefits';
 import { LearningApproach } from '@/components/sections/LearningApproach';
 import { AISection } from '@/components/sections/AISection';
 import { CareerSection } from '@/components/sections/CareerSection';
+import { SectionHeading } from '@/components/SectionHeading';
+import { TierCards } from '@/components/TierCards';
 
 export default function Home() {
   useSeo({
@@ -24,6 +26,27 @@ export default function Home() {
       <LearningApproach />
       <AISection />
       <CareerSection />
+      <section className="relative bg-charcoal-900 py-20 sm:py-28">
+        <div className="container-site">
+          <SectionHeading
+            eyebrow="Learning tracks"
+            title={
+              <>
+                Choose the depth. <span className="text-gradient">Keep the standard.</span>
+              </>
+            }
+            description="Every programme is available in three tracks — from strong foundations to a career-focused experience with capstone projects and individual mentoring."
+          />
+          <div className="mt-14">
+            <TierCards />
+          </div>
+          <div className="mt-10 text-center">
+            <ButtonLink to="/fees" variant="secondary" arrow>
+              View Programmes &amp; Fees
+            </ButtonLink>
+          </div>
+        </div>
+      </section>
       <CtaBanner
         title={
           <>

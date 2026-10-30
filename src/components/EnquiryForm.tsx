@@ -2,6 +2,7 @@ import { useId, useState } from 'react';
 import { CheckCircle2, Loader2, Send } from 'lucide-react';
 import { courses } from '@/data/courses';
 import { educationLevels } from '@/data/content';
+import { availablePrograms, categories, tiers } from '@/data/pricing';
 import { whatsappLink } from '@/config/site';
 import { emptyEnquiry, enquiryToText, submitEnquiry, validateEnquiry, type Enquiry, type EnquiryErrors } from '@/lib/enquiry';
 import { Button } from './Button';
@@ -9,9 +10,13 @@ import { WhatsAppIcon } from './SocialIcon';
 
 type Status = 'idle' | 'submitting' | 'success-api' | 'success-email' | 'error';
 
-export function EnquiryForm({ defaultCourse = '', compact = false }: { defaultCourse?: string; compact?: boolean }) {
+type Props = { defaultCourse?: string; defaultPlan?: string; compact?: boolean };
+
+const planOptions = [...tiers.map((t) => `${t.name} — ${t.label}`), 'Not sure yet'];
+
+export function EnquiryForm({ defaultCourse = '', defaultPlan = '', compact = false }: Props) {
   const uid = useId();
-  const [data, setData] = useState<Enquiry>({ ...emptyEnquiry, course: defaultCourse });
+  const [data, setData] = useState<Enquiry>({ ...emptyEnquiry, course: defaultCourse, plan: defaultPlan });
   const [errors, setErrors] = useState<EnquiryErrors>({});
   const [status, setStatus] = useState<Status>('idle');
 
@@ -33,7 +38,7 @@ export function EnquiryForm({ defaultCourse = '', compact = false }: { defaultCo
     try {
       const { channel } = await submitEnquiry(data);
       setStatus(channel === 'api' ? 'success-api' : 'success-email');
-      if (channel === 'api') setData({ ...emptyEnquiry, course: defaultCourse });
+      if (channel === 'api') setData({ ...emptyEnquiry, course: defaultCourse, plan: defaultPlan });
     } catch {
       setStatus('error');
     }
@@ -84,11 +89,27 @@ export function EnquiryForm({ defaultCourse = '', compact = false }: { defaultCo
             <option value="" disabled>
               Select a course
             </option>
-            {courses.map((c) => (
-              <option key={c.slug} value={c.title}>
-                {c.title}
-              </option>
-            ))}
+            <optgroup label="Featured courses">
+              {courses.map((c) => (
+                <option key={c.slug} value={c.title}>
+                  {c.title}
+                </option>
+              ))}
+            </optgroup>
+            {categories.map((cat) => {
+              const programs = availablePrograms(cat).filter((p) => !p.courseSlug);
+              return (
+                programs.length > 0 && (
+                  <optgroup key={cat.id} label={cat.title}>
+                    {programs.map((p) => (
+                      <option key={p.name} value={p.name}>
+                        {p.name}
+                      </option>
+                    ))}
+                  </optgroup>
+                )
+              );
+            })}
             <option value="Not sure yet">Not sure yet — need guidance</option>
           </select>
         </Field>
@@ -104,6 +125,25 @@ export function EnquiryForm({ defaultCourse = '', compact = false }: { defaultCo
             ))}
           </select>
         </Field>
+        <fieldset className="sm:col-span-2">
+          <legend className="mb-2 block text-sm font-medium text-slate-200">Preferred Track</legend>
+          <div className="flex flex-wrap gap-2">
+            {planOptions.map((option) => {
+              const checked = data.plan === option;
+              return (
+                <label
+                  key={option}
+                  className={`cursor-pointer rounded-full border px-4 py-2 text-sm font-medium transition has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-electric-400 ${
+                    checked ? 'border-transparent bg-brand-gradient text-white' : 'border-white/10 bg-ink-900/70 text-slate-300 hover:border-white/25'
+                  }`}
+                >
+                  <input type="radio" name="plan" value={option} checked={checked} onChange={update('plan')} className="sr-only" />
+                  {option}
+                </label>
+              );
+            })}
+          </div>
+        </fieldset>
         <Field label="Message" htmlFor={`${uid}-message`} className="sm:col-span-2">
           <textarea rows={4} placeholder="Tell us about your goals or questions…" {...field('message')} />
         </Field>

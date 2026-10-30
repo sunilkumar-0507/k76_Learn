@@ -4,7 +4,7 @@ import { BrainCircuit, Briefcase, Code2, Megaphone, PenTool } from 'lucide-react
 export type CourseLogistics = {
   /** e.g. "12 weeks". Leave null until confirmed — shown as "Shared on enquiry". */
   duration: string | null;
-  /** e.g. "₹ 24,999". Leave null until confirmed. */
+  /** Overrides the fee shown in the course facts. Leave null to show the starting fee from `pricing.ts` (or "Shared on enquiry"). */
   fees: string | null;
   /** e.g. "K76 Learn certificate of completion". Leave null until confirmed. */
   certification: string | null;

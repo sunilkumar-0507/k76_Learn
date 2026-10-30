@@ -39,7 +39,7 @@ export const benefits: Item[] = [
 ];
 
 export const learningSteps = [
-  { step: '01', title: 'Learn', description: 'Understand concepts from experienced trainers.', icon: Lightbulb },
+  { step: '01', title: 'Learn', description: 'Understand concepts from professional, industry-experienced trainers.', icon: Lightbulb },
   { step: '02', title: 'Practice', description: 'Apply knowledge through hands-on exercises.', icon: Hammer },
   { step: '03', title: 'Build', description: 'Work on practical projects and develop a portfolio.', icon: FolderKanban },
   { step: '04', title: 'Grow', description: 'Prepare for internships, jobs, freelancing and career opportunities.', icon: Rocket },

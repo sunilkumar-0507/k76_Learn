@@ -29,6 +29,7 @@ export const navLinks = [
   { label: 'About', to: '/about' },
   { label: 'Courses', to: '/courses' },
   { label: 'Career Development', to: '/career-development' },
+  { label: 'Fees', to: '/fees' },
   { label: 'Contact', to: '/contact' },
 ] as const;
 

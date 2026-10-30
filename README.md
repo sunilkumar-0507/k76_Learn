@@ -21,7 +21,8 @@ npm run preview   # serve the production build
 | `/courses/:slug` | Course detail + enquiry form |
 | `/career-development` | Career Development |
 | `/why-k76-learn` | Why K76 Learn? |
-| `/contact` | Contact & admission enquiry (`?course=<slug>` pre-selects a course) |
+| `/fees` | Learning tracks (Basic / Advanced / Premium), value pillars and the full fee structure |
+| `/contact` | Contact & admission enquiry (`?course=<slug>`, `?program=<name>` and `?plan=basic\|advanced\|premium` pre-fill the form) |
 
 ## Updating content
 
@@ -29,7 +30,9 @@ All copy lives in plain data files, so most updates need no component changes:
 
 - **`src/config/site.ts`** — brand name, email, phone, WhatsApp number, parent brand link, social profile URLs (a network appears in the footer once its `url` is filled in), nav links.
 - **`src/data/courses.ts`** — every course: overview, topics, skills, projects, who can join, and `logistics`.
-  - `duration`, `fees`, `certification` and `mode` are intentionally `null`. Each one reads **"Shared on enquiry"** until you set a value, e.g. `duration: '12 weeks'`.
+  - `duration`, `certification` and `mode` are intentionally `null`. Each one reads **"Shared on enquiry"** until you set a value, e.g. `duration: '12 weeks'`.
+  - `fees` is `null` too. A course linked to a programme in `pricing.ts` (via `courseSlug`) shows "From ₹…" plus its three track prices automatically.
+- **`src/data/pricing.ts`** — the three learning tracks, every programme and bundle fee, the value pillars and the fee note. Set `available: false` on a programme to hide it from the Fees page and the enquiry form.
 - **`src/data/content.ts`** — Why K76 Learn benefits, learning steps, AI use cases, career highlights and the education levels in the form.
 
 ## Enquiry form

@@ -6,6 +6,7 @@ export type Enquiry = {
   phone: string;
   institution: string;
   course: string;
+  plan: string;
   educationLevel: string;
   message: string;
 };
@@ -16,6 +17,7 @@ export const emptyEnquiry: Enquiry = {
   phone: '',
   institution: '',
   course: '',
+  plan: '',
   educationLevel: '',
   message: '',
 };
@@ -40,6 +42,7 @@ export function enquiryToText(data: Enquiry) {
     `Phone: ${data.phone}`,
     `College / Institution: ${data.institution || '-'}`,
     `Course: ${data.course}`,
+    `Preferred track: ${data.plan || '-'}`,
     `Education level: ${data.educationLevel}`,
     `Message: ${data.message || '-'}`,
   ].join('\n');

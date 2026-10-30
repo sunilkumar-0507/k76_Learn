@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { useSeo } from '@/hooks/useSeo';
 import { site, whatsappLink } from '@/config/site';
 import { getCourse } from '@/data/courses';
+import { categories, tiers } from '@/data/pricing';
 import { PageHero } from '@/components/PageHero';
 import { EnquiryForm } from '@/components/EnquiryForm';
 import { Reveal } from '@/components/Reveal';
@@ -14,7 +15,12 @@ export default function Contact() {
     description: 'Enquire about K76 Learn courses. Email hello@k76.in, call or WhatsApp +91 76672 24144, or send us an admission enquiry online.',
   });
   const [params] = useSearchParams();
-  const defaultCourse = getCourse(params.get('course') ?? undefined)?.title ?? '';
+  const programParam = params.get('program');
+  const programExists = categories.some((c) => c.programs.some((p) => p.name === programParam && !p.courseSlug));
+  const programCourse = categories.flatMap((c) => c.programs).find((p) => p.name === programParam && p.courseSlug)?.courseSlug;
+  const defaultCourse = getCourse(params.get('course') ?? programCourse)?.title ?? (programExists ? programParam! : '');
+  const tier = tiers.find((t) => t.id === params.get('plan'));
+  const defaultPlan = tier ? `${tier.name} — ${tier.label}` : '';
 
   const channels = [
     { icon: Mail, label: 'Email', value: site.email, href: `mailto:${site.email}` },
@@ -76,7 +82,7 @@ export default function Contact() {
 
           <Reveal delay={100}>
             <h2 className="sr-only">Admission enquiry form</h2>
-            <EnquiryForm defaultCourse={defaultCourse} />
+            <EnquiryForm key={`${defaultCourse}|${defaultPlan}`} defaultCourse={defaultCourse} defaultPlan={defaultPlan} />
           </Reveal>
         </div>
       </section>

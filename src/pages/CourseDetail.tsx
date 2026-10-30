@@ -2,6 +2,8 @@ import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft, Award, CalendarClock, Check, FolderKanban, IndianRupee, MonitorSmartphone, Sparkles, Users } from 'lucide-react';
 import { useSeo } from '@/hooks/useSeo';
 import { courses, getCourse } from '@/data/courses';
+import { feeNote, formatINR, programForCourse, startingPrice } from '@/data/pricing';
+import { TierCards } from '@/components/TierCards';
 import { Backdrop } from '@/components/PageHero';
 import { Reveal } from '@/components/Reveal';
 import { ButtonLink } from '@/components/Button';
@@ -26,10 +28,11 @@ export default function CourseDetail() {
 
   const Icon = course.icon;
   const { logistics } = course;
+  const program = programForCourse(course.slug);
   const facts = [
     { icon: CalendarClock, label: 'Duration', value: logistics.duration },
     { icon: MonitorSmartphone, label: 'Mode', value: logistics.mode },
-    { icon: IndianRupee, label: 'Fees', value: logistics.fees },
+    { icon: IndianRupee, label: 'Fees', value: logistics.fees ?? (program ? `From ${formatINR(startingPrice(program))}` : null) },
     { icon: Award, label: 'Certification', value: logistics.certification },
   ];
   const others = courses.filter((c) => c.slug !== course.slug).slice(0, 3);
@@ -145,6 +148,25 @@ export default function CourseDetail() {
           </Reveal>
         </div>
       </section>
+
+      {program && (
+        <section className="py-16 sm:py-20">
+          <div className="container-site">
+            <Reveal className="max-w-3xl">
+              <span className="eyebrow">Fees</span>
+              <h2 className="mt-5 text-3xl leading-tight sm:text-4xl">Choose your track</h2>
+              <p className="mt-4 text-lg leading-relaxed text-slate-400">
+                Every track follows the same professional standard. Higher tracks add depth — more advanced projects, closer mentoring and stronger career
+                support.
+              </p>
+            </Reveal>
+            <div className="mt-12">
+              <TierCards program={program} />
+            </div>
+            <p className="mt-8 text-sm text-slate-500">{feeNote}</p>
+          </div>
+        </section>
+      )}
 
       <section id="enquire" className="scroll-mt-24 py-16 sm:py-20">
         <div className="container-site grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:items-start">

@@ -3,7 +3,7 @@ import { Backdrop } from '@/components/PageHero';
 import { ButtonLink } from '@/components/Button';
 
 export default function NotFound() {
-  useSeo({ title: 'Page not found', description: 'The page you are looking for does not exist.' });
+  useSeo({ title: 'Page not found', description: 'The page you are looking for does not exist.', noindex: true });
   return (
     <section className="relative flex min-h-[80vh] items-center overflow-hidden pt-24">
       <Backdrop />

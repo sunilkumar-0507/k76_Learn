@@ -1,23 +1,24 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, Check } from 'lucide-react';
-import { formatINR, tiers, type Program } from '@/data/pricing';
+import type { Course } from '@/data/catalog';
+import { formatINR, tiers } from '@/data/pricing';
 import { Reveal } from './Reveal';
 
 type Props = {
-  /** When given, each card shows that programme's fee for the tier. */
-  program?: Program;
+  /** When given, each card shows that course's fee for the tier. */
+  course?: Course;
   headingLevel?: 'h2' | 'h3';
 };
 
-export function TierCards({ program, headingLevel: H = 'h3' }: Props) {
-  const visible = program ? tiers.filter((t) => program[t.id] !== undefined) : tiers;
+export function TierCards({ course, headingLevel: H = 'h3' }: Props) {
+  const visible = course ? tiers.filter((t) => course.fees[t.id] !== undefined) : tiers;
 
   return (
     <div className={`grid gap-6 ${visible.length === 3 ? 'lg:grid-cols-3' : 'md:grid-cols-2'}`}>
       {visible.map((tier, i) => {
         const featured = tier.id === 'premium';
-        const price = program?.[tier.id];
-        const query = new URLSearchParams({ plan: tier.id, ...(program ? { program: program.name } : {}) });
+        const price = course?.fees[tier.id];
+        const query = new URLSearchParams({ plan: tier.id, ...(course ? { course: course.slug } : {}) });
         return (
           <Reveal key={tier.id} delay={i * 100}>
             <article
@@ -36,7 +37,7 @@ export function TierCards({ program, headingLevel: H = 'h3' }: Props) {
                 {price !== undefined && (
                   <p className="mt-6 flex items-baseline gap-2">
                     <span className="text-4xl font-extrabold tracking-tight text-white">{formatINR(price)}</span>
-                    <span className="text-sm text-slate-500">/ programme</span>
+                    <span className="text-sm text-slate-500">/ course</span>
                   </p>
                 )}
 

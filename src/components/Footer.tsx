@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Mail, Phone, Globe } from 'lucide-react';
 import { navLinks, site, whatsappLink } from '@/config/site';
-import { courses } from '@/data/courses';
+import { categoryPath, visibleCategories } from '@/data/catalog';
 import { Logo } from './Logo';
 import { SocialIcon, WhatsAppIcon } from './SocialIcon';
 
@@ -58,9 +58,9 @@ export function Footer() {
         </FooterColumn>
 
         <FooterColumn title="Courses" className="lg:col-span-3">
-          {courses.map((c) => (
+          {visibleCategories.map((c) => (
             <li key={c.slug}>
-              <Link to={`/courses/${c.slug}`} className="text-sm text-slate-400 transition hover:text-white">
+              <Link to={categoryPath(c)} className="text-sm text-slate-400 transition hover:text-white">
                 {c.title}
               </Link>
             </li>

@@ -15,7 +15,7 @@ export default function Home() {
   useSeo({
     title: site.name,
     description:
-      'K76 Learn teaches industry-ready skills in Digital Marketing, UI/UX Design, Full Stack Development, AI and Career Development through hands-on, project-based learning.',
+      'Premium, industry-focused courses in graphic & UI/UX design, digital marketing, programming, data analytics and AI — with professional trainers, advanced projects and career-focused tracks.',
   });
 
   return (

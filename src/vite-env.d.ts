@@ -2,6 +2,7 @@
 
 interface ImportMetaEnv {
   readonly VITE_ENQUIRY_ENDPOINT?: string;
+  readonly VITE_SITE_URL?: string;
 }
 
 interface ImportMeta {

@@ -21,8 +21,8 @@ export function AISection() {
             how to integrate them into marketing, design, coding and everyday professional workflows, responsibly and effectively.
           </p>
           <div className="mt-8">
-            <ButtonLink to="/courses/ai-powered-learning" arrow>
-              Explore AI-Powered Learning
+            <ButtonLink to="/courses/ai-emerging-technologies" arrow>
+              Explore AI Courses
             </ButtonLink>
           </div>
         </Reveal>

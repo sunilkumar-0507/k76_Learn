@@ -2,7 +2,8 @@ import { ButtonLink } from '../Button';
 import { HeroVisual } from '../HeroVisual';
 import { RotatingWords } from '../RotatingWords';
 import { Backdrop } from '../PageHero';
-import { courses } from '@/data/courses';
+import { Link } from 'react-router-dom';
+import { categoryPath, subjectCategories } from '@/data/catalog';
 
 export function Hero() {
   return (
@@ -35,10 +36,15 @@ export function Hero() {
             </ButtonLink>
           </div>
 
-          <ul className="mt-12 flex flex-wrap gap-2" aria-label="Programmes">
-            {courses.map((c) => (
-              <li key={c.slug} className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs font-medium text-slate-400">
-                {c.title}
+          <ul className="mt-12 flex flex-wrap gap-2" aria-label="Course categories">
+            {subjectCategories.map((c) => (
+              <li key={c.slug}>
+                <Link
+                  to={categoryPath(c)}
+                  className="inline-block rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs font-medium text-slate-400 transition hover:border-white/25 hover:text-white"
+                >
+                  {c.title}
+                </Link>
               </li>
             ))}
           </ul>

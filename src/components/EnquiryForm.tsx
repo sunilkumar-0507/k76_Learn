@@ -1,8 +1,8 @@
 import { useId, useState } from 'react';
 import { CheckCircle2, Loader2, Send } from 'lucide-react';
-import { courses } from '@/data/courses';
+import { visibleCategories, visibleCourses } from '@/data/catalog';
 import { educationLevels } from '@/data/content';
-import { availablePrograms, categories, tiers } from '@/data/pricing';
+import { tiers } from '@/data/pricing';
 import { whatsappLink } from '@/config/site';
 import { emptyEnquiry, enquiryToText, submitEnquiry, validateEnquiry, type Enquiry, type EnquiryErrors } from '@/lib/enquiry';
 import { Button } from './Button';
@@ -89,27 +89,15 @@ export function EnquiryForm({ defaultCourse = '', defaultPlan = '', compact = fa
             <option value="" disabled>
               Select a course
             </option>
-            <optgroup label="Featured courses">
-              {courses.map((c) => (
-                <option key={c.slug} value={c.title}>
-                  {c.title}
-                </option>
-              ))}
-            </optgroup>
-            {categories.map((cat) => {
-              const programs = availablePrograms(cat).filter((p) => !p.courseSlug);
-              return (
-                programs.length > 0 && (
-                  <optgroup key={cat.id} label={cat.title}>
-                    {programs.map((p) => (
-                      <option key={p.name} value={p.name}>
-                        {p.name}
-                      </option>
-                    ))}
-                  </optgroup>
-                )
-              );
-            })}
+            {visibleCategories.map((cat) => (
+              <optgroup key={cat.slug} label={cat.title}>
+                {visibleCourses(cat).map((c) => (
+                  <option key={c.slug} value={c.name}>
+                    {c.name}
+                  </option>
+                ))}
+              </optgroup>
+            ))}
             <option value="Not sure yet">Not sure yet — need guidance</option>
           </select>
         </Field>

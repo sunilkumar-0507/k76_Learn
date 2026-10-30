@@ -17,23 +17,39 @@ npm run preview   # serve the production build
 | --- | --- |
 | `/` | Home |
 | `/about` | About Us |
-| `/courses` | Course listing with filter tabs (`?course=<slug>`) |
-| `/courses/:slug` | Course detail + enquiry form |
+| `/courses` | Every course, grouped by category |
+| `/courses/<category>` | Category page: its courses, fee table and who can join |
+| `/courses/<category>/<course>` | Course page: overview, syllabus, skills, projects, track fees and enquiry form |
+| `/fees` | Learning tracks (Basic / Advanced / Premium), value pillars and every fee table |
 | `/career-development` | Career Development |
 | `/why-k76-learn` | Why K76 Learn? |
-| `/fees` | Learning tracks (Basic / Advanced / Premium), value pillars and the full fee structure |
-| `/contact` | Contact & admission enquiry (`?course=<slug>`, `?program=<name>` and `?plan=basic\|advanced\|premium` pre-fill the form) |
+| `/contact` | Contact & admission enquiry (`?course=<course slug>` and `?plan=basic\|advanced\|premium` pre-fill the form) |
+
+Categories: `design-creative`, `digital-marketing`, `programming-development`, `data-analytics`, `ai-emerging-technologies`, `bundles`.
 
 ## Updating content
 
 All copy lives in plain data files, so most updates need no component changes:
 
-- **`src/config/site.ts`** — brand name, email, phone, WhatsApp number, parent brand link, social profile URLs (a network appears in the footer once its `url` is filled in), nav links.
-- **`src/data/courses.ts`** — every course: overview, topics, skills, projects, who can join, and `logistics`.
-  - `duration`, `certification` and `mode` are intentionally `null`. Each one reads **"Shared on enquiry"** until you set a value, e.g. `duration: '12 weeks'`.
-  - `fees` is `null` too. A course linked to a programme in `pricing.ts` (via `courseSlug`) shows "From ₹…" plus its three track prices automatically.
-- **`src/data/pricing.ts`** — the three learning tracks, every programme and bundle fee, the value pillars and the fee note. Set `available: false` on a programme to hide it from the Fees page and the enquiry form.
+- **`src/data/catalog.ts`** — the course catalogue. Each category lists its courses, and each course holds its overview, topics, skills, projects, fees and optional `logistics`.
+  - Add a course to a category's `courses` array and it automatically gets a page, appears on the Courses, category and Fees pages, in the enquiry form and in the sitemap.
+  - `logistics.duration`, `mode` and `certification` read **"Shared on enquiry"** until set, e.g. `logistics: { duration: '12 weeks' }`.
+  - Set `available: false` on a course to hide it everywhere without deleting it.
+  - Bundles list the courses they include in `includes`.
+- **`src/data/pricing.ts`** — the three learning tracks, value pillars and the fee note.
+- **`src/config/site.ts`** — site URL, brand name, email, phone, WhatsApp number, parent brand link, social profile URLs (a network appears in the footer once its `url` is filled in) and nav links.
 - **`src/data/content.ts`** — Why K76 Learn benefits, learning steps, AI use cases, career highlights and the education levels in the form.
+
+## SEO
+
+- **Prerendered HTML:** `npm run build` renders every route to static HTML (`dist/<route>/index.html`), so search engines and social previews see full content without running JavaScript. React then hydrates the page in the browser.
+- **Per-page metadata:** each page sets a unique `<title>`, meta description, canonical URL, Open Graph and Twitter tags (`src/hooks/useSeo.ts`).
+- **Structured data (JSON-LD):** `EducationalOrganization` on every page, `Course` with INR offers for each track on course pages, `BreadcrumbList` on inner pages and `ItemList` on course listings (`src/lib/schema.ts`).
+- **Sitemap and robots:** `dist/sitemap.xml` and `dist/robots.txt` are generated from the catalogue at build time.
+- **Moved URLs:** old course links (e.g. `/courses/ui-ux-design`) redirect to their new address (`legacyPaths` in `catalog.ts`).
+- **Site URL:** canonical URLs, structured data and the sitemap use `site.url`, which defaults to `https://learn.k76.in`. Set `VITE_SITE_URL` when building if the site lives elsewhere.
+
+After launch, submit `<site url>/sitemap.xml` in Google Search Console.
 
 ## Enquiry form
 
@@ -49,10 +65,9 @@ The logic lives in `src/lib/enquiry.ts`.
 
 ## Deployment
 
-The build is a static SPA in `dist/`. SPA fallbacks are included for Netlify (`public/_redirects`) and Vercel (`vercel.json`). On other hosts, rewrite unknown paths to `/index.html`.
+The build in `dist/` is a static site with one HTML file per page plus `404.html`, so it works on Netlify, Vercel, Cloudflare Pages, GitHub Pages or any static host without rewrite rules.
 
 ## Notes
 
-- Page titles, meta descriptions, Open Graph tags and canonical URLs are set per route by `src/hooks/useSeo.ts`.
-- Illustrations are inline SVG/CSS, so there are no image downloads. Routes other than Home are lazy-loaded.
+- Illustrations are inline SVG/CSS, so there are no image downloads.
 - Animations respect `prefers-reduced-motion`. Navigation, forms and the mobile menu are keyboard- and screen-reader-accessible.

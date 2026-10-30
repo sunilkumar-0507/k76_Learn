@@ -4,6 +4,12 @@
  */
 export const site = {
   name: 'K76 Learn',
+  /**
+   * Public address of this website, without a trailing slash. Used for canonical
+   * URLs, Open Graph tags, structured data and the sitemap.
+   * Can be overridden at build time with the VITE_SITE_URL environment variable.
+   */
+  url: (import.meta.env.VITE_SITE_URL || 'https://learn.k76.in').replace(/\/$/, ''),
   tagline: 'Learn Skills. Build Your Future.',
   description:
     'K76 Learn helps students move beyond traditional education with practical, industry-relevant skills, project-based learning, career development and AI-powered education.',

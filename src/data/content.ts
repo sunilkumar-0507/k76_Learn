@@ -71,3 +71,18 @@ export const educationLevels = [
   'Working Professional',
   'Other',
 ];
+
+/** Career development support described on the Career Development page. */
+export const careerProgramme = {
+  overview:
+    'Skills open doors only when you can present them well. Career development is built into our Advanced and Premium tracks: you build a professional resume and portfolio, learn to communicate with confidence, optimise your LinkedIn presence, prepare for interviews and understand freelancing — with guidance on your next career step.',
+  topics: [
+    'Resume Building',
+    'Portfolio Development',
+    'Communication Skills',
+    'Interview Preparation',
+    'LinkedIn Profile Optimization',
+    'Freelancing Fundamentals',
+    'Career Guidance',
+  ],
+};

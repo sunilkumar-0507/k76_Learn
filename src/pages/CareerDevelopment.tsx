@@ -1,5 +1,5 @@
 import { useSeo } from '@/hooks/useSeo';
-import { getCourse } from '@/data/courses';
+import { careerProgramme } from '@/data/content';
 import { PageHero } from '@/components/PageHero';
 import { ButtonLink } from '@/components/Button';
 import { CareerSection } from '@/components/sections/CareerSection';
@@ -21,7 +21,6 @@ export default function CareerDevelopment() {
     description:
       'Resume building, portfolio development, interview preparation, LinkedIn optimisation, communication skills and freelancing guidance at K76 Learn.',
   });
-  const course = getCourse('career-development')!;
 
   return (
     <>
@@ -38,8 +37,8 @@ export default function CareerDevelopment() {
           <ButtonLink to="/contact" size="lg" arrow>
             Start Building Your Career
           </ButtonLink>
-          <ButtonLink to={`/courses/${course.slug}`} size="lg" variant="secondary">
-            View Programme Details
+          <ButtonLink to="/fees" size="lg" variant="secondary">
+            Compare Learning Tracks
           </ButtonLink>
         </div>
       </PageHero>
@@ -67,11 +66,11 @@ export default function CareerDevelopment() {
           <Reveal className="mt-16">
             <div className="card grid gap-8 p-8 sm:p-10 lg:grid-cols-2">
               <div>
-                <h2 className="text-2xl sm:text-3xl">What the programme covers</h2>
-                <p className="mt-3 text-slate-400">{course.overview}</p>
+                <h2 className="text-2xl sm:text-3xl">Career support we provide</h2>
+                <p className="mt-3 text-slate-400">{careerProgramme.overview}</p>
               </div>
               <ul className="grid gap-3 sm:grid-cols-2">
-                {course.topics.map((t) => (
+                {careerProgramme.topics.map((t) => (
                   <li key={t} className="flex items-start gap-2.5 text-sm text-slate-300">
                     <Check className="mt-0.5 h-4 w-4 flex-none text-amber-300" aria-hidden="true" /> {t}
                   </li>

@@ -67,6 +67,10 @@ The logic lives in `src/lib/enquiry.ts`.
 
 The build in `dist/` is a static site with one HTML file per page plus `404.html`, so it works on Netlify, Vercel, Cloudflare Pages, GitHub Pages or any static host without rewrite rules.
 
+## Logo and icons
+
+The logo source is `branding/k76-logo-source.jpg`. `python3 scripts/build-icons.py` (needs Pillow) crops the logo tile, removes the background and writes `logo.png`, `logo-mark.webp/png`, `favicon.ico/png` and `apple-touch-icon.png` into `public/`. To change the logo, replace the source image (adjust `TILE_BOX` in the script if the framing differs) and run the script again. `public/og-image.png` is the 1200×630 social sharing image.
+
 ## Notes
 
 - Illustrations are inline SVG/CSS, so there are no image downloads.
